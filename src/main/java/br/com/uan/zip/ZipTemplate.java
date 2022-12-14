@@ -25,15 +25,17 @@ public class ZipTemplate
      * sim, já retorna a referência para o arquivo Zip.
      */
     public ZipFile isZipFile(File file) {
+        log.info("Verificando se o arquivo {} é um ZIP...", file.getPath());
         try {
             ZipFile zipFile = new ZipFile(file);
 
             if (zipFile.isValidZipFile()) {
+                log.debug("Ele é um ZIP");
                 return zipFile;
             }
         }
         catch (Exception e) {
-            log.error("Erro ao descompactar o arquivo, provavelmente ele não é um ZIP: " + e.getMessage(), e);
+            log.error("Ele não é um ZIP: {}", e.getMessage(), e);
         }
 
         return null;
@@ -76,6 +78,7 @@ public class ZipTemplate
         /*
          * Extraindo os arquivos para o diretório informado.
          */
+        log.info("Extraindo o conteúdo do ZIP {}", zipFile.getFile().getPath());
         zipFile.extractAll(directoryDestination.getAbsolutePath());
     }
 

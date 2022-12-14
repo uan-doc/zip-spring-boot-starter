@@ -15,7 +15,7 @@ import br.com.uan.zip.ZipTemplate;
 public class ZipAutoConfiguration
 {
     @Bean
-    ZipTemplate amazonS3Template() throws IOException {
+    ZipTemplate zipTemplate() throws IOException {
         return new ZipTemplate();
     }
 }
