@@ -2,12 +2,12 @@ package br.com.uan.zip;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import br.com.uan.enums.KnowErrorMessagesEnum;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.ZipParameters;
@@ -45,19 +45,25 @@ public class ZipTemplate
         return isZipFile(new File(fileName));
     }
 
-    public void unzip(ZipFile zipFile, String password, String directoryDestination) throws ZipException, InvalidParameterException {
+    public void unzip(ZipFile zipFile, String password, String directoryDestination) throws ZipException, IllegalArgumentException {
         unzip(zipFile, password, new File(directoryDestination));
     }
 
-    public void unzip(File zipFile, File directoryDestination) throws ZipException, InvalidParameterException {
+    public void unzip(File zipFile, File directoryDestination) throws ZipException, IllegalArgumentException {
         unzip(zipFile, null, directoryDestination);
     }
 
-    public void unzip(File zipFile, String password, File directoryDestination) throws ZipException, InvalidParameterException {
-        unzip(isZipFile(zipFile), password, directoryDestination);
+    public void unzip(File zipFile, String password, File directoryDestination) throws ZipException, IllegalArgumentException {
+        ZipFile zip = isZipFile(zipFile);
+
+        if (zip == null) {
+            throw new IllegalArgumentException(KnowErrorMessagesEnum.uan_001.getMessage(zipFile.getPath()));
+        }
+
+        unzip(zip, password, directoryDestination);
     }
 
-    public void unzip(ZipFile zipFile, String password, File directoryDestination) throws ZipException, InvalidParameterException {
+    public void unzip(ZipFile zipFile, String password, File directoryDestination) throws ZipException, IllegalArgumentException {
 
         /*
          * Verificando primeiramente se o diretório é válido.
@@ -65,7 +71,7 @@ public class ZipTemplate
         if (!directoryDestination.exists() || !directoryDestination.isDirectory()) {
             String msg = "Diretório informado inválido.";
             log.error(msg);
-            throw new InvalidParameterException(msg);
+            throw new IllegalArgumentException(msg);
         }
 
         /*
