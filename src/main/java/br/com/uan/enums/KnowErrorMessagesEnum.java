@@ -20,10 +20,21 @@ public enum KnowErrorMessagesEnum {
         this.message = message;
     }
 
+    /**
+     * Retorna a mensagem formatada para ser lançada nas exceptions, ex.: throw
+     * new
+     * IllegalArgumentException(KnowErrorMessagesEnum.uan_001.getMessage(zipFile.getPath()));
+     */
     public String getMessage(Object... params) {
         return String.format(message, params);
     }
 
+    /**
+     * Verifica se a mensagem informada é sobre o enum informado, ex.: <br/>
+     * <br/>
+     * {@code if(KnowErrorMessagesEnum.isAboutThis(e.getMessage(),
+     * KnowErrorMessagesEnum.uan_001))}
+     */
     public static boolean isAboutThis(String message, KnowErrorMessagesEnum error) {
         if (message == null) {
             return false;

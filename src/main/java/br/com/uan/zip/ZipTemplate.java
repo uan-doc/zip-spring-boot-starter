@@ -84,8 +84,9 @@ public class ZipTemplate
         /*
          * Extraindo os arquivos para o diretório informado.
          */
-        log.info("Extraindo o conteúdo do ZIP {}", zipFile.getFile().getPath());
-        zipFile.extractAll(directoryDestination.getAbsolutePath());
+        String destination = directoryDestination.getAbsolutePath();
+        log.info("Extraindo o conteúdo do ZIP {} para {}", zipFile.getFile().getPath(), destination);
+        zipFile.extractAll(destination);
     }
 
     public void zip(File destination, List<File> filesToZip) throws ZipException, IOException {
